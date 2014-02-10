@@ -10,7 +10,10 @@ if [ `pgrep pulseaudio` ]; then pulseaudio -k; fi
 DISPLAY=:0.0 pulseaudio --high-priority=1 & 
 
 #Wait for Pulse to be init
-sleep 1
+until [ `pgrep pulseaudio` ]; do sleep 1; done;
+
+# A bit more delay to stabilize things
+sleep 2;
 
 # Start Mumble
 DISPLAY=:0.0 mumble "mumble://pifx@listen.webuild.sg/webuildsg-live?&version=1.2.0" &
